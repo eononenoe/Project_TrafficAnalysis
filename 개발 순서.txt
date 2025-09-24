@@ -1,0 +1,26 @@
+개발 순서 (Spring Boot 버전)
+
+Python 모듈
+
+YOLOv7 + OpenCV → 차량 수 카운팅까지 구현
+
+결과를 JSON 형태로 requests.post()로 전송
+
+Spring Boot
+
+/traffic/save → Python 모듈이 차량 수를 보내 저장
+
+/traffic/stats → React에서 혼잡도 그래프 조회
+
+DB 설계
+
+traffic_data 테이블
+
+id | cctv_id | timestamp | vehicle_count
+
+
+React
+
+CCTV 영상 표시
+
+시간대별 차량 수 그래프

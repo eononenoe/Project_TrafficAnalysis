@@ -1,0 +1,7 @@
+Java(Spring Boot) → 메인 무기 (백엔드, ERP, 서비스, DB 관리)
+
+Python(OpenCV + YOLO) → 영상 처리/AI 분석 모듈
+
+React → 프론트 대시보드 (보여주기용)
+
+Docker + AWS → 배포 경험
