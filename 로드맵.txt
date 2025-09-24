@@ -9,7 +9,7 @@
 
 Python(OpenCV)으로 영상 불러오기 성공
 
-YOLOv8 Pretrained 모델 적용 → 차량 감지/박스 표시
+YOLOv7  모델 적용 → 차량 감지/박스 표시
 
 차량 수 콘솔에 출력
 
@@ -25,7 +25,7 @@ Spring Boot 프로젝트 생성 (REST API 서버)
 
 DB(PostgreSQL) 연결 (차량 수, CCTV ID, 시간 저장 테이블 설계)
 
-Python 모듈에서 차량 수를 API로 전송 → Spring Boot에서 DB 저장
+Python 모듈에서 차량 수를 API로 전송 → Spring Boot에서 DB 저장 == 2025-09-25
 
 DB에 “시간대별 차량 수” 데이터 쌓이기 확인
 
