@@ -5,8 +5,10 @@
 - TrafficStatsDto 생성 → API 응답 DTO 정의  
 - Service 구현 → 통계 결과 DTO 변환 + 혼잡도 로직 적용  
 - Controller 확장 → `/traffic/stats` API 제공  
-- curl 테스트 → 정상 응답 확인  
-  ```json
-  [
-    {"weekday":"THU","hour":"18","avgCount":63.0,"congestion":"HIGH"}
-  ]
+- curl 테스트 → 정상 응답 확인
+
+    ```
+    [
+      {"weekday":"THU","hour":"18","avgCount":63.0,"congestion":"HIGH"}
+    ]
+    ```
