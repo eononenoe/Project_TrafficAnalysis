@@ -1,3 +1,5 @@
+# API KEY
+backend/yolov7/config.py
 # Repo-specific GitIgnore ----------------------------------------------------------------------------------------------
 *.jpg
 *.jpeg

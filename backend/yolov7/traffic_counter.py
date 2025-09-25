@@ -7,13 +7,12 @@ import torch
 from models.experimental import attempt_load         # YOLOv7 모델 불러오기
 from utils.general import non_max_suppression, scale_coords
 from utils.plots import plot_one_box                  # 바운딩 박스 그리기
+from config import API_KEY
 
 
 # =============================
 # 1. 공공데이터포털 CCTV API 호출
 # =============================
-API_KEY = "96debc4e17cc4895beb0d96b58d5e449"   # 발급받은 인증키
-
 def get_cctv_url():
     url = (
         "https://openapi.its.go.kr:9443/cctvInfo"
@@ -150,7 +149,7 @@ def run_vehicle_counter(cctv_url):
 
             break
 
-        #cv2.imshow("Traffic CCTV", im0) # 결과 영상 표시 (개발용)
+        cv2.imshow("Traffic CCTV", im0) # 결과 영상 표시 (개발용)
         if cv2.waitKey(1) & 0xFF == 27:  # ESC 키 누르면 종료
             break
 
