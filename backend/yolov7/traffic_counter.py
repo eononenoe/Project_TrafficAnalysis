@@ -9,6 +9,26 @@ from utils.general import non_max_suppression, scale_coords
 from utils.plots import plot_one_box                  # 바운딩 박스 그리기
 from config import API_KEY
 
+# =============================
+# API 전송 함수 (Spring Boot)
+# =============================
+def send_vehicle_count(vehicle_count, cctv_id=1):
+    API_URL = "http://localhost:8080/traffic/save"
+    payload = {
+        "cctvId": cctv_id,
+        "timestamp": datetime.datetime.now().strftime("%Y-%m-%dT%H:%M:%S"),
+        "vehicleCount": vehicle_count
+    }
+    headers = {"Content-Type": "application/json"}
+
+    try:
+        response = requests.post(API_URL, headers=headers, json=payload)
+        if response.status_code == 200:
+            print(f"[SUCCESS] 전송 성공 → {payload}")
+        else:
+            print(f"[FAIL] 전송 실패 ({response.status_code}): {response.text}")
+    except Exception as e:
+        print(f"[ERROR] API 호출 에러: {e}")
 
 # =============================
 # 1. 공공데이터포털 CCTV API 호출
@@ -143,13 +163,13 @@ def run_vehicle_counter(cctv_url):
             print(f"최댓값: {max_cnt}")
             print(f"총합(1분간 차량 수): {total}")
 
-            # DB 저장 or JSON 변환 자리 (예시)
-            results = [{"time": str(t), "count": c} for t, c in counts]
-            print("JSON 변환 예시:", results)
+            # DB 저장 전송
+            send_vehicle_count(int(avg), cctv_id=1)
 
             break
 
-        cv2.imshow("Traffic CCTV", im0) # 결과 영상 표시 (개발용)
+
+        #cv2.imshow("Traffic CCTV", im0) # 결과 영상 표시 (개발용)
         if cv2.waitKey(1) & 0xFF == 27:  # ESC 키 누르면 종료
             break
 

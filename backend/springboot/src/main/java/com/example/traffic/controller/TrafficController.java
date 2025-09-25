@@ -3,14 +3,21 @@ package com.example.traffic.controller;
 import com.example.traffic.dto.TrafficData;
 import com.example.traffic.entity.TrafficEntity;
 import com.example.traffic.repository.TrafficRepository;
+import com.example.traffic.service.TrafficService;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
-import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
+import com.example.traffic.dto.TrafficStatsDto;
+
+import java.util.List;
+
 
 @RestController
+@RequiredArgsConstructor
 @RequestMapping("/traffic")
 public class TrafficController {
+
+    private final TrafficService trafficService;
 
     @Autowired
     private TrafficRepository trafficRepository;
@@ -30,5 +37,10 @@ public class TrafficController {
 
         trafficRepository.save(entity);  // DB 저장
         return "OK";
+    }
+
+    @GetMapping("/stats")
+    public List<TrafficStatsDto> getTrafficStats(@RequestParam String cctvId) {
+        return trafficService.getStats(cctvId);
     }
 }

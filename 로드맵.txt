@@ -1,74 +1,61 @@
-✅ 단계별 개발 로드맵 (우선순위)
-🔹 1단계: 기본 뼈대 (1~2주)
-
+🔹 1단계: 기본 뼈대
 목표: “CCTV 영상 → 차량 수 카운팅”
 
-해야 할 일:
+ 공공 교통 CCTV 스트림 가져오기 (RTSP/HTTP URL 연결)
 
-공공 교통 CCTV 스트림 가져오기 (RTSP/HTTP URL 연결)
+ Python(OpenCV)으로 영상 불러오기 성공
 
-Python(OpenCV)으로 영상 불러오기 성공
+ YOLOv7 모델 적용 → 차량 감지/박스 표시
 
-YOLOv7  모델 적용 → 차량 감지/박스 표시
+ 차량 수 콘솔에 출력
 
-차량 수 콘솔에 출력
+👉 완료 → “AI/영상분석 모듈” 기본 완성
 
-👉 여기까지 하면, “AI/영상분석 모듈” 기본 완성.
-
-🔹 2단계: 데이터 저장 (2~3주)
-
+🔹 2단계: 데이터 저장
 목표: “차량 수 → DB에 기록”
 
-해야 할 일:
+ Spring Boot 프로젝트 생성 (REST API 서버)
 
-Spring Boot 프로젝트 생성 (REST API 서버)
+ DB(Oracle 사용) 연결 (차량 수, CCTV ID, 시간 저장 테이블 설계)
 
-DB(PostgreSQL) 연결 (차량 수, CCTV ID, 시간 저장 테이블 설계)
+ Python 모듈에서 차량 수를 API로 전송 → Spring Boot에서 DB 저장 (2025-09-25 성공)
 
-Python 모듈에서 차량 수를 API로 전송 → Spring Boot에서 DB 저장 == 2025-09-25
+ DB에 “시간대별 차량 수” 데이터 쌓이기 확인
 
-DB에 “시간대별 차량 수” 데이터 쌓이기 확인
+👉 완료 → “Java 백엔드 + Python 모듈 연동” 성공
 
-👉 여기서부터 “Java가 메인 백엔드”라는 게 드러남.
-
-🔹 3단계: 데이터 분석 & API 제공 (2주)
-
+🔹 3단계: 데이터 분석 & API 제공 
 목표: “요일/시간대별 혼잡도 API”
 
-해야 할 일:
+ DB에서 특정 CCTV, 특정 요일, 시간대별 차량 수 평균 쿼리
 
-DB에서 특정 CCTV, 특정 요일, 시간대별 차량 수 평균 쿼리
+ 혼잡도 지수 계산 로직 (예: 차량 수 > 50 → HIGH)
 
-혼잡도 지수 계산 로직 (예: 차량 수 > 50 → HIGH)
+ REST API (/traffic/stats?cctvId=1) 만들기
 
-REST API (예: /traffic/stats?cctvId=1&weekday=MON) 만들기
+ curl 테스트 성공 → JSON 응답 확인
 
-👉 이제 단순 탐지를 넘어서 서비스 로직이 됨.
+👉 완료 → 서비스 로직 API 구현 달성
 
-🔹 4단계: 프론트 대시보드 (3~4주)
-
+🔹 4단계: 프론트 대시보드
 목표: “웹에서 통계/영상 확인”
 
-해야 할 일:
+ React 프로젝트 세팅
 
-React 프로젝트 세팅
+ CCTV 영상 스트리밍 (HLS/RTSP → HTML5 player)
 
-CCTV 영상 스트리밍 (HLS/RTSP → HTML5 player)
+ Chart.js/Recharts로 시간대별 차량 수 그래프
 
-Chart.js/Recharts로 시간대별 차량 수 그래프
+ Heatmap(Leaflet.js/Naver Maps API)으로 CCTV 위치 표시
 
-Heatmap(Leaflet.js/Naver Maps API)으로 CCTV 위치 표시
+ Spring Boot API와 연동 (Axios)
 
-Spring Boot API와 연동 (Axios)
-
-👉 여기까지 오면 면접에서 보여줄 수 있는 **“완성된 서비스”**가 됨.
+👉 다음 목표
 
 🔹 5단계: 추가 기능 (심화, 선택)
 
-편의 기능: 출퇴근 추천 시간대 안내 (예: “8:00 출발 → 평균 25분 단축”)
+ 출퇴근 추천 시간대 안내
 
-예측 기능: 단순 선형회귀/LSTM으로 다음주 혼잡도 예측
+ 혼잡도 예측 (선형회귀/LSTM)
 
-배포: Docker Compose로 통합 → AWS EC2 배포
-
-👉 여기까지 하면 “실제 서비스처럼 동작”하는 포트폴리오 완성.
+ Docker Compose 통합 → AWS EC2 배포
