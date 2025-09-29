@@ -39,16 +39,28 @@
 
 🔹 4단계: 프론트 대시보드
 목표: “웹에서 통계/영상 확인”
+**목표**: React 대시보드에서 CCTV 영상과 혼잡도 그래프를 함께 확인  
 
- React 프로젝트 세팅
+### 해야 할 일
+- React 프로젝트 세팅
 
- CCTV 영상 스트리밍 (HLS/RTSP → HTML5 player)
+- API 연동
+  - 백엔드 API 호출 (`GET /traffic/stats?cctvId=1`)
+  - CCTV ID를 입력하거나 선택 → Axios로 데이터 조회 → State 저장
+  - 조회된 데이터 Chart.js 그래프로 표시
 
- Chart.js/Recharts로 시간대별 차량 수 그래프
+- CCTV 영상 표시
+  - CCTV API에서 받은 `cctvUrl`을 `<video>` 태그 또는 HLS.js 플레이어로 렌더링
+  - HLS 변환이 필요하면 Nginx-rtmp/HLS 서버를 중간에 둠
 
- Heatmap(Leaflet.js/Naver Maps API)으로 CCTV 위치 표시
+- 그래프 시각화
+  - 시간대별 차량 수 → `react-chartjs-2` LineChart/BarChart
+  - 요일별 혼잡도 평균 → BarChart
 
- Spring Boot API와 연동 (Axios)
+- 지도 기반 시각화 (Heatmap)
+  - Leaflet.js + React-Leaflet 사용
+  - CCTV 위치(marker) 표시
+  - 혼잡도(차량 수 크기)에 따라 색상/반경 다르게 표시
 
 👉 다음 목표
 

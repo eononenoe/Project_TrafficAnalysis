@@ -33,15 +33,15 @@ def send_vehicle_count(vehicle_count, cctv_id=1):
 # =============================
 # 1. 공공데이터포털 CCTV API 호출
 # =============================
-def get_cctv_url():
+def get_cctv_url(minX, maxX, minY, maxY):
     url = (
         "https://openapi.its.go.kr:9443/cctvInfo"
         f"?apiKey={API_KEY}"
         "&type=all"
-        "&cctvType=1"   # 1 = 실시간 스트리밍
-        "&minX=127.12350&maxX=127.12365"   # 경도 범위
-        "&minY=37.42880&maxY=37.42890"     # 위도 범위 
-        "&getType=xml"  # XML 형식 응답
+        "&cctvType=1"
+        f"&minX={minX}&maxX={maxX}"
+        f"&minY={minY}&maxY={maxY}"
+        "&getType=xml"
     )
 
     res = requests.get(url)
@@ -169,7 +169,7 @@ def run_vehicle_counter(cctv_url):
             break
 
 
-        #cv2.imshow("Traffic CCTV", im0) # 결과 영상 표시 (개발용)
+        cv2.imshow("Traffic CCTV", im0) # 결과 영상 표시 (개발용)
         if cv2.waitKey(1) & 0xFF == 27:  # ESC 키 누르면 종료
             break
 
