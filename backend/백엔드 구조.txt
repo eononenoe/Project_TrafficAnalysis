@@ -1,0 +1,23 @@
+src/main/java/com/example/traffic/
+│
+├── TrafficApplication.java     # Spring Boot 실행 진입점
+│
+├── config/                     # 환경 설정
+│   └── WebConfig.java          # CORS 설정 등 글로벌 설정
+│
+├── controller/                 # API 엔드포인트
+│   ├── TrafficController.java  # 교통량 저장/조회
+│   └── CctvController.java     # CCTV URL 조회 (Python 연동)
+│
+├── dto/                        # 데이터 전달 객체
+│   ├── TrafficData.java        # 차량 카운트 DTO
+│   └── TrafficStatsDto.java    # 통계 응답 DTO
+│
+├── entity/                     # JPA 엔티티
+│   └── TrafficEntity.java      # TRAFFIC_DATA 테이블 매핑
+│
+├── repository/                 # DB 접근 계층
+│   └── TrafficRepository.java  # 교통 데이터 조회/집계
+│
+└── service/                    # 비즈니스 로직
+    └── TrafficService.java     # 통계 로직, Repository 연동
