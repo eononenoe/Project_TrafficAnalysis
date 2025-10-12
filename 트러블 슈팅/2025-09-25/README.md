@@ -1,4 +1,4 @@
-## 1. Repository 제네릭 타입 오류
+## Repository 제네릭 타입 오류
 - **문제**  
   - `List<Objects[]>` 로 선언 → `java.util.Objects` 클래스라서 컴파일 에러 발생  
 
@@ -10,7 +10,7 @@
 
 ---
 
-## 2. ORA-00942 테이블 존재하지 않음
+## ORA-00942 테이블 존재하지 않음
 - **문제**  
   - SQL 실행 시 `ORA-00942: 테이블 또는 뷰가 존재하지 않습니다` 발생  
   - Repository 쿼리에서는 `traffic_entity` 사용, 실제 테이블명은 `TRAFFIC_DATA`  
@@ -24,7 +24,7 @@
 
 ---
 
-## 3. API 호출 시 500 Internal Server Error
+## API 호출 시 500 Internal Server Error
 - **문제**  
   - `/traffic/stats` 호출 시 서버 내부 에러 발생  
   - 원인은 SQL 매핑 불일치와 DTO 변환 시 캐스팅 오류  

@@ -1,5 +1,4 @@
-
-## 1. CCTV API 연동 문제
+## CCTV API 연동 문제
 - **문제**  
   - 공공데이터포털 CCTV API 응답이 XML 형식  
   - 지정한 좌표 범위와 맞지 않으면 URL을 못 가져옴  
@@ -13,7 +12,7 @@
 
 ---
 
-## 2. YOLO 차량 탐지 정확도 & 성능 이슈
+## YOLO 차량 탐지 정확도 & 성능 이슈
 - **문제1**  
   - 흰색 트럭, 어두운 장면에서 탐지율 낮음  
 
@@ -33,7 +32,7 @@
 
 ---
 
-## 3. GPU 사용 불가 (CUDA 설치 문제)
+## GPU 사용 불가 (CUDA 설치 문제)
 - **문제**  
   - `torch.cuda.is_available() == False`  
   - CPU 전용 PyTorch 설치됨  
@@ -50,7 +49,7 @@
 
 ---
 
-## 4. Spring Boot + Oracle 연동
+## Spring Boot + Oracle 연동
 - **문제1**  
   - application.yml에서 Oracle 연결 실패  
 
@@ -76,7 +75,7 @@
 
 ---
 
-## 5. REST API 검증 (PowerShell + curl)
+## REST API 검증 (PowerShell + curl)
 - **문제**  
   - PowerShell에서 curl 옵션(-H, -d) 인식 불가  
 

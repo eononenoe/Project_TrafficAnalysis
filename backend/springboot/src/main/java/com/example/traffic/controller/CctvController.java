@@ -1,24 +1,35 @@
 package com.example.traffic.controller;
 
+import com.example.traffic.entity.CctvInfo;
+import com.example.traffic.repository.CctvRepository;
 import org.springframework.web.bind.annotation.*;
+
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
 import java.util.Collections;
+import java.util.List;
 import java.util.Map;
 
 @RestController
 @RequestMapping("/cctv")
+@CrossOrigin(origins = "http://localhost:3000")
 public class CctvController {
 
-    @GetMapping("/url")
-    public Map<String, String> getCctvUrl(
+    private final CctvRepository cctvRepository;
+
+    public CctvController(CctvRepository cctvRepository) {
+        this.cctvRepository = cctvRepository;
+    }
+
+    // Python 실행 → DB에 CCTV 저장
+    @GetMapping("/update")
+    public Map<String, String> updateCctvData(
             @RequestParam double minX,
             @RequestParam double maxX,
             @RequestParam double minY,
             @RequestParam double maxY
     ) {
         try {
-            // Python 스크립트 실행 (traffic_counter.py의 get_cctv 부분만 호출)
             String pythonExe = "C:/Users/User/Desktop/Project_TrafficAnalysis/backend/yolov7/.venv/Scripts/python.exe";
             String scriptPath = "C:/Users/User/Desktop/Project_TrafficAnalysis/backend/yolov7/get_cctv_url.py";
 
@@ -32,13 +43,56 @@ public class CctvController {
             pb.redirectErrorStream(true);
             Process process = pb.start();
 
-            // Python에서 CCTV URL 출력 받기
+            BufferedReader reader = new BufferedReader(new InputStreamReader(process.getInputStream()));
+            String line;
+            while ((line = reader.readLine()) != null) {
+                System.out.println("[Python] " + line);
+            }
+            process.waitFor();
+
+            return Collections.singletonMap("message", "CCTV 데이터 갱신 완료 (DB 저장)");
+        } catch (Exception e) {
+            e.printStackTrace();
+            return Collections.singletonMap("error", e.getMessage());
+        }
+    }
+
+    // DB에 저장된 CCTV 목록 전체 조회
+    @GetMapping("/list")
+    public List<CctvInfo> getCctvList() {
+        return cctvRepository.findAll();
+    }
+
+    // 특정 좌표 범위로 CCTV URL 직접 조회 (React → Python → CCTV URL)
+    @GetMapping("/url")
+    public Map<String, String> getCctvUrl(
+            @RequestParam double minX,
+            @RequestParam double maxX,
+            @RequestParam double minY,
+            @RequestParam double maxY
+    ) {
+        try {
+            String pythonExe = "C:/Users/User/Desktop/Project_TrafficAnalysis/backend/yolov7/.venv/Scripts/python.exe";
+            String scriptPath = "C:/Users/User/Desktop/Project_TrafficAnalysis/backend/yolov7/get_cctv_url.py";
+
+            ProcessBuilder pb = new ProcessBuilder(
+                    pythonExe, scriptPath,
+                    "--minX", String.valueOf(minX),
+                    "--maxX", String.valueOf(maxX),
+                    "--minY", String.valueOf(minY),
+                    "--maxY", String.valueOf(maxY)
+            );
+            pb.redirectErrorStream(true);
+            Process process = pb.start();
+
             BufferedReader reader = new BufferedReader(new InputStreamReader(process.getInputStream()));
             String line;
             String cctvUrl = null;
+
+            // Python에서 URL 추출
             while ((line = reader.readLine()) != null) {
                 System.out.println("[Python] " + line);
-                if (line.startsWith("http")) { // URL 출력 시 잡기
+                if (line.startsWith("http")) {
                     cctvUrl = line.trim();
                 }
             }
