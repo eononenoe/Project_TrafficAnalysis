@@ -2,8 +2,11 @@ import requests
 import xml.etree.ElementTree as ET
 import argparse
 import oracledb as cx_Oracle
+import sys
+import re
 from config import API_KEY
 
+sys.stdout.reconfigure(encoding='utf-8')
 # Oracle DB 연결 정보
 DB_USER = "system"           # DB 사용자명
 DB_PASSWORD = "1234"   # DB 비밀번호
@@ -78,9 +81,17 @@ def get_cctv(minX, maxX, minY, maxY):
         line_name = "기타"
         location_name = name
 
-        if name.startswith("[") and "]" in name:
-            line_name = name.split("]")[0][1:]  # 대괄호 안의 노선명 추출
-            location_name = name.split("]")[1].strip()  # 나머지 이름
+        if name:
+            # 특수공백 제거
+            clean_name = re.sub(r'[\u200b\u3000\xa0\s]+', ' ', name).strip()
+
+            # 첫 번째 [노선명] 추출
+            match = re.match(r'\[([^\]]+)\]', clean_name)
+            if match:
+                line_name = match.group(1).strip()
+
+            # 나머지 [ ... ] 전부 제거해서 실제 이름만 추출
+            location_name = re.sub(r'\[[^\]]*\]', '', clean_name).strip()
 
         # 필수 데이터가 하나라도 없으면 무시
         if not (name and cctv_url and coordx and coordy):
@@ -94,8 +105,8 @@ def get_cctv(minX, maxX, minY, maxY):
             coordx, coordy = float(coordx), float(coordy)
 
             # 주변 범위 계산 (지도 검색용)
-            min_x, max_x = coordx - 0.01, coordx + 0.01
-            min_y, max_y = coordy - 0.01, coordy + 0.01
+            min_x, max_x = coordx - 0.0001, coordx + 0.0001,
+            min_y, max_y = coordy - 0.0001, coordy + 0.0001,
 
             # 콘솔 로그 출력 (Spring Boot에서 stdout으로 읽을 수 있음)
             print(f"[CCTV] {name} ({coordx}, {coordy}) → {cctv_url}")
