@@ -29,6 +29,7 @@
 ---
 
 ## 🏗 아키텍처 구성
+```
 CCTV 영상 → [Python(OpenCV + YOLOv7)] 차량 탐지
 ↓
 [Spring Boot API] 데이터 수집 / DB 저장
@@ -38,6 +39,7 @@ CCTV 영상 → [Python(OpenCV + YOLOv7)] 차량 탐지
 [React Dashboard] 혼잡도 시각화 / 추천 기능
 
 > 💡 선택 사항: `Docker`로 전체 환경을 컨테이너 기반 로컬 환경에서 통합 실행 가능
+```
 
 ---
 
