@@ -93,7 +93,7 @@ function CoordinateForm({ setCctvUrl }) {
 
   return (
     <form onSubmit={handleSubmit} className="coordinate-form">
-      <h2>CCTV 선택</h2>
+      <h2>실시간 CCTV</h2>
       {/* 노선 선택 */}
       <select onChange={handleLineSelect} value={selectedLine}>
         <option value="">노선 선택</option>

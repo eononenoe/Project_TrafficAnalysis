@@ -14,7 +14,6 @@ function VideoStream({ cctvUrl }) {
 
   return (
     <div>
-      <h3>실시간 CCTV</h3>
       <video ref={videoRef} controls autoPlay muted width="600" height="400" />
     </div>
   );
