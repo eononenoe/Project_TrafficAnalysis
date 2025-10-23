@@ -1,1 +1,3 @@
 backend/yolov7/config.py
+frontend/*
+!frontend/src/
