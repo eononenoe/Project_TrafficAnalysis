@@ -1,0 +1,59 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+.main {
+  display: flex;
+  flex-direction: row;
+  gap: 30px;
+  margin-top: 100px;
+  width: 100%;
+  height: 100%;
+  justify-content: center;
+  align-items: center;
+}
+
+.coordinate-form {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+/* select 기본 스타일 */
+.coordinate-form > select {
+  height: 32px;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  padding: 4px 8px;
+  background-color: #fff;
+  transition: all 0.2s ease;
+  cursor: pointer;
+}
+
+/* select hover 효과 */
+.coordinate-form > select:hover {
+  border-color: skyblue;
+  box-shadow: 0 0 4px rgba(135, 206, 235, 0.5);
+}
+
+/* 버튼 기본 스타일 */
+.coordinate-form > button {
+  background-color: white;
+  border: 1px solid skyblue;
+  border-radius: 6px;
+  height: 36px;
+  cursor: pointer;
+  font-weight: 500;
+  transition: all 0.2s ease;
+}
+
+/* 버튼 hover 효과 */
+.coordinate-form > button:hover {
+  background-color: skyblue;
+  color: white;
+  border-color: deepskyblue;
+  box-shadow: 0 2px 6px rgba(0, 191, 255, 0.3);
+  transform: translateY(-1px);
+}
