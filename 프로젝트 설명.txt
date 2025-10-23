@@ -42,7 +42,7 @@ AI/영상 분석: Python, YOLOv7, OpenCV
 
 백엔드: Java, Spring Boot, Spring Data JPA
 
-DB: PostgreSQL
+DB: OraCleDB
 
 프론트엔드: React, Chart.js
 
