@@ -14,8 +14,7 @@ function Dashboard() {
   }, []);
 
   return (
-    <div>
-      <h2>교통 혼잡도 대시보드</h2>
+    <div className="main">
       {/* 좌표 입력 → CCTV URL 가져오기 */}
       <CoordinateForm setCctvUrl={setCctvUrl} />
 
