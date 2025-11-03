@@ -67,7 +67,7 @@ def send_vehicle_count(vehicle_count, cctv_id):
 # =============================
 # 2. YOLOv7 모델 불러오기
 # =============================
-weights = "yolov7-tiny.pt"                     # YOLOv7 가중치 파일
+weights = r"C:\Users\User\Desktop\Project_TrafficAnalysis\backend\yolov7\yolov7-tiny.pt"
 device = 'cuda'                                # CPU : cpu / GPU : cuda
 model = attempt_load(weights, map_location=device)  # GPU/CPU에 모델 로드
 model.eval()                                   # 추론 모드로 전환

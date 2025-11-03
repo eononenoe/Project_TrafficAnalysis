@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from "react";
 import { fetchCctvUrl } from "../services/api";
 
-function CoordinateForm({ setCctvUrl }) {
-  const [coords, setCoords] = useState({
+function CoordinateForm({ setCctvUrl, setSelectedCctvId, setCoords }) {
+  const [coords, setLocalCoords] = useState({
     minX: "",
     maxX: "",
     minY: "",
@@ -20,18 +20,25 @@ function CoordinateForm({ setCctvUrl }) {
     setSelectedLocation(""); // 노선 바꾸면 위치 초기화
   };
 
-  // 위치 선택 시 좌표 자동 세팅
+  // 위치 선택 시 CCTV ID + 좌표 전달
   const handleLocationSelect = (e) => {
-    const selected = e.target.value.split(",");
-    if (selected.length === 4) {
-      setCoords({
-        minX: selected[0],
-        maxX: selected[1],
-        minY: selected[2],
-        maxY: selected[3]
-      });
+    const selectedId = e.target.value;
+    const selected = cctvList.find((c) => String(c.id) === selectedId);
+    if (selected) {
+      // ✅ 로컬 좌표 저장
+      const newCoords = {
+        minX: selected.minX,
+        maxX: selected.maxX,
+        minY: selected.minY,
+        maxY: selected.maxY
+      };
+      setLocalCoords(newCoords);
+
+      // ✅ 부모로 CCTV ID + 좌표 전달
+      setSelectedCctvId(selected.id);
+      setCoords(newCoords);
     }
-    setSelectedLocation(e.target.options[e.target.selectedIndex].text);
+    setSelectedLocation(selected?.locationName || "");
   };
 
   // CCTV URL 요청
@@ -56,16 +63,10 @@ function CoordinateForm({ setCctvUrl }) {
       try {
         const res = await fetch("http://localhost:8080/cctv/list");
         const data = await res.json();
-
         if (data.length === 0) {
           console.log("CCTV 목록이 비어있음 → 자동 업데이트 실행");
-
-          await fetch(
-            "http://localhost:8080/cctv/update?minX=124.0&maxX=132.0&minY=33.0&maxY=39.0"
-          );
-
+          await fetch("http://localhost:8080/cctv/update?minX=124.0&maxX=132.0&minY=33.0&maxY=39.0");
           await new Promise((resolve) => setTimeout(resolve, 10000));
-
           const updated = await fetch("http://localhost:8080/cctv/list");
           const updatedData = await updated.json();
           setCctvList(updatedData);
@@ -94,6 +95,7 @@ function CoordinateForm({ setCctvUrl }) {
   return (
     <form onSubmit={handleSubmit} className="coordinate-form">
       <h2>실시간 CCTV</h2>
+
       {/* 노선 선택 */}
       <select onChange={handleLineSelect} value={selectedLine}>
         <option value="">노선 선택</option>
@@ -104,10 +106,10 @@ function CoordinateForm({ setCctvUrl }) {
         ))}
       </select>
 
-      {/* 해당 노선의 위치 선택 */}
+      {/* 위치 선택 (value를 CCTV ID로 변경) */}
       <select
         onChange={handleLocationSelect}
-        value={`${coords.minX},${coords.maxX},${coords.minY},${coords.maxY}`}
+        value={selectedLocation}
         disabled={!selectedLine}
       >
         <option value="">위치 선택</option>
@@ -119,22 +121,13 @@ function CoordinateForm({ setCctvUrl }) {
               index === self.findIndex((t) => t.locationName === c.locationName)
           )
           .map((c) => (
-            <option
-              key={`${c.id}-${c.locationName}`}
-              value={`${c.minX},${c.maxX},${c.minY},${c.maxY}`}
-            >
+            <option key={c.id} value={c.id}>
               {c.locationName}
             </option>
           ))}
       </select>
 
-      {/* 좌표값은 숨김 처리 */}
-      <input type="hidden" name="minX" value={coords.minX} />
-      <input type="hidden" name="maxX" value={coords.maxX} />
-      <input type="hidden" name="minY" value={coords.minY} />
-      <input type="hidden" name="maxY" value={coords.maxY} />
-
-      <button type="submit">조회</button>
+      <button type="submit">CCTV 조회</button>
     </form>
   );
 }
