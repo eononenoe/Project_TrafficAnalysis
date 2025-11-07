@@ -119,10 +119,17 @@ traffic-analysis/
 │   ├── src/main/java/com/traffic/entity/
 │   └── src/main/java/com/traffic/repository/
 ├── frontend/
-│   ├── src/components/
-│   ├── src/pages/
-│   └── src/App.js
-└── README.md
+│    │src
+│    ├── components/
+│    │   ├── CoordinateForm.js
+│    │   ├── VideoStream.js
+│    │   ├── TrafficChart.js     
+│    │   ├── TrafficGraph.js      
+│    │   └── Heatmap.js
+│    ├── pages/
+│    │   └── Dashboard.js
+│    └── services/
+│        └── api.js
 ```
 
 ---
