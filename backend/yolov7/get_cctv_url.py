@@ -23,7 +23,7 @@ def save_to_db(cctv_list):
         # CCTV_INFO 테이블에 데이터 삽입 SQL
         sql = """
         INSERT INTO CCTV_INFO 
-        (NAME, COORDX, COORDY, MINX, MAXX, MINY, MAXY, STREAM_URL, LINE_NAME, LOCATION_NAME)
+        (NAME, COORD_X, COORD_Y, MIN_X, MAX_X, MIN_Y, MAX_Y, STREAM_URL, LINE_NAME, LOCATION_NAME)
         VALUES (:1, :2, :3, :4, :5, :6, :7, :8, :9, :10)
         """
 
@@ -105,8 +105,11 @@ def get_cctv(minX, maxX, minY, maxY):
             coordx, coordy = float(coordx), float(coordy)
 
             # 주변 범위 계산 (지도 검색용)
-            min_x, max_x = coordx - 0.0001, coordx + 0.0001,
-            min_y, max_y = coordy - 0.0001, coordy + 0.0001,
+            # 주변 범위 계산 (지도 검색용)
+            min_x = coordx - 0.0001
+            max_x = coordx + 0.0001
+            min_y = coordy - 0.0001
+            max_y = coordy + 0.0001
 
             # 콘솔 로그 출력 (Spring Boot에서 stdout으로 읽을 수 있음)
             print(f"[CCTV] {name} ({coordx}, {coordy}) → {cctv_url}")
@@ -137,4 +140,12 @@ if __name__ == "__main__":
     args = parser.parse_args()
 
     # CCTV 정보 수집 및 저장 실행
-    get_cctv(args.minX, args.maxX, args.minY, args.maxY)
+    cctv_data = get_cctv(args.minX, args.maxX, args.minY, args.maxY)
+
+    if cctv_data and len(cctv_data) > 0:
+        # 첫 번째 CCTV의 URL을 stdout으로 출력해야 Spring이 인식함
+        print(cctv_data[0][7])  # 8번째 값이 STREAM_URL
+    else:
+        print("[Python] CCTV 데이터 없음")
+        sys.exit(1)  # 실패 코드로 종료 (Spring에서 404 처리)
+
